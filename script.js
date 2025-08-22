@@ -23,7 +23,7 @@ camera.position.z = 5;
 
     loader.load(
         // Path to your .gltf or .glb file
-        'path/to/your/model.gltf',
+        './Joeyblend.glb',
         // Called when the resource is loaded
         function (gltf) {
             scene.add(gltf.scene); // Add the loaded model's scene to your Three.js scene
