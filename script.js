@@ -19,6 +19,10 @@ const material = new THREE.MeshBasicMaterial( { color: 0x00f4ff } );
 const cube = new THREE.Mesh( geometry, material );
 scene.add( cube );
 
+Light Added
+const light = new THREE.AmbientLight( 0x404040, 20); // soft white light
+scene.add( light );
+
 camera.position.z = 5;
 
     loader.load(
