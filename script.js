@@ -23,7 +23,7 @@ const cube = new THREE.Mesh( geometry, material );
 scene.add( cube );
 
 //Light is added
-const light = new THREE.AmbientLight( 0x404040, 20); // soft white light
+const light = new THREE.AmbientLight( 0x404040, 5); // soft white light
 scene.add( light );
 
 camera.position.z = 5;
