@@ -17,7 +17,7 @@ const controls = new OrbitControls( camera, renderer.domElement );
 
 
 // Cube Model
-/*const geometry = new THREE.BoxGeometry( 2,2,2 );*/
+const geometry = new THREE.BoxGeometry( 2,2,2 );
 const material = new THREE.MeshPhongMaterial( { color: 0x00f4ff } );
 const cube = new THREE.Mesh( geometry, material );
 scene.add( cube );
