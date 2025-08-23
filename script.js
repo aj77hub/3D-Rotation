@@ -17,10 +17,10 @@ const controls = new OrbitControls( camera, renderer.domElement );
 
 
 // Cube Model
-const geometry = new THREE.BoxGeometry( 2,2,2 );
+/*const geometry = new THREE.BoxGeometry( 2,2,2 );
 const material = new THREE.MeshPhongMaterial( { color: 0x00f4ff } );
 const cube = new THREE.Mesh( geometry, material );
-scene.add( cube );
+scene.add( cube );*/
 
 //Light is added
 const light = new THREE.AmbientLight( 0x404040, 5); // soft white light
