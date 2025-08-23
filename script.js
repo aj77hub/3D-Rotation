@@ -1,3 +1,4 @@
+
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -13,13 +14,15 @@ const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.inner
 
 const controls = new OrbitControls( camera, renderer.domElement );
 
+
+
 // Cube Model
 const geometry = new THREE.BoxGeometry( 2,2,2 );
-const material = new THREE.MeshBasicMaterial( { color: 0x00f4ff } );
+const material = new THREE.MeshPhongMaterial( { color: 0x00f4ff } );
 const cube = new THREE.Mesh( geometry, material );
 scene.add( cube );
 
-Light Added
+//Light is added
 const light = new THREE.AmbientLight( 0x404040, 20); // soft white light
 scene.add( light );
 
