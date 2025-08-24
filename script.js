@@ -34,7 +34,6 @@ camera.position.z = 5;
         // Called when the resource is loaded
         function (gltf) {
             scene.add(gltf.scene); // Add the loaded model's scene to your Three.js scene
-            const material = new THREE.MeshPhongMaterial( { color: 0x00f4ff } );
             console.log('Model loaded successfully!');
             // You can also access animations, cameras, etc. from gltf.animations, gltf.cameras
         },
@@ -52,8 +51,8 @@ camera.position.z = 5;
 function animate() {
   
 //If you want the cube to animate Activate this
-  cube.rotation.x += 0.00;
+ /* cube.rotation.x += 0.00;
   cube.rotation.y += 0.005;
   renderer.render( scene, camera );
 }
-renderer.setAnimationLoop( animate );
+renderer.setAnimationLoop( animate );*/
