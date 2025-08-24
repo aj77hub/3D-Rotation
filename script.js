@@ -17,13 +17,13 @@ const controls = new OrbitControls( camera, renderer.domElement );
 
 
 // Cube Model
-const geometry = new THREE.BoxGeometry( 2,2,2 );
-const material = new THREE.MeshPhongMaterial( { color: 0x00f4ff } );
-const cube = new THREE.Mesh( geometry, material );
-scene.add( cube );
+//const geometry = new THREE.BoxGeometry( 2,2,2 );
+//const material = new THREE.MeshPhongMaterial( { color: 0x00f4ff } );
+//const cube = new THREE.Mesh( geometry, material );
+//scene.add( cube );
 
 //Light is added
-const light = new THREE.AmbientLight( 0x404040, 5); // soft white light
+const light = new THREE.AmbientLight( 0x404040, 10); // soft white light
 scene.add( light );
 
 camera.position.z = 5;
@@ -34,9 +34,11 @@ camera.position.z = 5;
         // Called when the resource is loaded
         function (gltf) {
             scene.add(gltf.scene); // Add the loaded model's scene to your Three.js scene
+            const material = new THREE.MeshPhongMaterial( { color: 0x00f4ff } );
             console.log('Model loaded successfully!');
             // You can also access animations, cameras, etc. from gltf.animations, gltf.cameras
         },
+        
         // Called while loading is progressing
         function (xhr) {
             console.log((xhr.loaded / xhr.total * 100) + '% loaded');
