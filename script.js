@@ -48,7 +48,7 @@ camera.position.z = 5;
         }
     );
 
-function animate() {
+//function animate() {
   
 //If you want the cube to animate Activate this
  /* cube.rotation.x += 0.00;
