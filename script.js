@@ -50,8 +50,8 @@ camera.position.z = 5;
 function animate() {
   
 //If you want the cube to animate Activate this
-  cube.rotation.x += 0.00;
-  cube.rotation.y += 0.005;
+ // cube.rotation.x += 0.00;
+ // cube.rotation.y += 0.005;
   renderer.render( scene, camera );
 }
 renderer.setAnimationLoop( animate );
