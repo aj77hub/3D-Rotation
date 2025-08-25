@@ -17,10 +17,10 @@ const controls = new OrbitControls( camera, renderer.domElement );
 
 
 // Cube Model
-const geometry = new THREE.BoxGeometry( 2,2,2 );
-const material = new THREE.MeshPhongMaterial( { color: 0xFF7F50 } );
-const cube = new THREE.Mesh( geometry, material );
-scene.add( cube );
+//const geometry = new THREE.BoxGeometry(.5,.5,.5 );
+//const material = new THREE.MeshPhongMaterial( { color: 0xFF7F50 } );
+//const cube = new THREE.Mesh( geometry, material );
+//scene.add( cube );
 
 //Light is added
 const light = new THREE.AmbientLight( 0x404040, 50); // soft white light
@@ -30,7 +30,7 @@ camera.position.z = 5;
 
     loader.load(
         // Path to your .gltf or .glb file
-        './Joeyblend.glb',
+        'https://cdn.tinyglb.com/models/c059175b3c22405e90d5d5a284fa2de5.glb',
         // Called when the resource is loaded
         function (gltf) {
             scene.add(gltf.scene); // Add the loaded model's scene to your Three.js scene
