@@ -24,7 +24,7 @@ loaderT.load('https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmE
     console.error('An error occurred loading the background image:', err);
 });
 loaderT.load(
-  'https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmExoSXw4EagCsfVbmAPIc.jpg',
+  './Dark Sky with stars.jpg',
   function (texture) {
     texture.encoding = THREE.sRGBEncoding;
 
