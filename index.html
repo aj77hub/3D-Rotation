@@ -1,10 +1,60 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <title>My first three.js app</title>
     <style>
+      
       body { margin: 0; }
+        <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    /* Make sure the canvas takes full width and height of the screen */
+    #threeCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1; /* Lower z-index to be under the slider container */
+    }
+
+    /* Container for the scene */
+    #scene-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Slider container styling */
+    #sliderContainer {
+      position: absolute;
+      top: 20px;
+      right: 20px; /* Adjusts the container to the top-right corner */
+      z-index: 10; /* Higher z-index so it floats above the scene */
+      background-color: rgba(0, 0, 0, 0);
+      padding: 10px;
+      border-radius: 8px;
+      color: white;
+      font-family: Arial, sans-serif;
+      width: auto;
+    }
+
+    /* Individual color picker styling */
+    input[type="color"] {
+      width: 50px;
+      height: 30px;
+    }
+
+    p {
+      margin: 5px 0;
+    }
+  </style>
     </style>
     <script type="importmap">
 {
@@ -15,7 +65,33 @@
 }
 </script>
   </head>
-  <body>
-    <script type="module" src="script.js"></script>
-  </body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Three.js Light Controls</title>
+  
+</head>
+<body>
+  <div id="scene-container">
+    <!-- This will hold the 3D scene canvas -->
+    <canvas id="threeCanvas"></canvas>
+
+    <!-- Slider container -->
+    <div id="sliderContainer">
+      <!-- Brightness Slider -->
+      <label for="brightnessSlider">☀️</label>
+      <input type="range" id="brightnessSlider" min="0" max="10" step="0.1" value="3">
+      <!--<p>Brightness: <span id="brightnessValue">3</span></p>-->
+
+      <!-- Color Picker for Color Intensity -->
+      <label for="colorPicker">🖌️</label>
+      <input type="color" id="colorPicker" value="#FFFFFF">
+      <!--<p>Color Intensity: <span id="colorValue">#FFFFFF</span></p>-->
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+ 
 </html>
