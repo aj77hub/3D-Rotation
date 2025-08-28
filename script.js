@@ -18,7 +18,7 @@ const scene = new THREE.Scene();
 // Create a TextureLoader
 const loaderT = new THREE.TextureLoader();
 //Load the image and set it as the scene background !! Make Sure the image is from HTTPS
-loaderT.load('./DarkSky.jpg', 
+loaderT.load('/DarkSky.jpg', 
              
     function(texture) {
   
@@ -26,7 +26,7 @@ loaderT.load('./DarkSky.jpg',
 }, undefined, function(err) {
     console.error('An error occurred loading the background image:', err);
 });
-loaderT.load('./DarkSky.jpg',
+loaderT.load('/DarkSky.jpg',
   function (texture) {
     texture.encoding = THREE.sRGBEncoding;
 
@@ -114,7 +114,7 @@ brightnessSlider.addEventListener('input', (event) => {
 
     loader.load(
         // Path to your .gltf or .glb file
-        'https://cdn.tinyglb.com/models/c059175b3c22405e90d5d5a284fa2de5.glb',      
+        '/MushroomHouse.glb',      
       
         // Called when the resource is loaded
         function (gltf) {
