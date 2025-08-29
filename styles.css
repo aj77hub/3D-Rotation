@@ -1,3 +1,4 @@
+  <style>
     body, html {
       margin: 0;
       padding: 0;
@@ -9,8 +10,8 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      width: 50%;
+      height: 50%;
       z-index: 1; /* Lower z-index to be under the slider container */
     }
 
@@ -24,8 +25,8 @@
     /* Slider container styling */
     #sliderContainer {
       position: absolute;
-      top: 20px;
-      right: 20px; /* Adjusts the container to the top-right corner */
+      top: 10px;
+      left: 10px; /* Adjusts the container to the top-right corner */
       z-index: 10; /* Higher z-index so it floats above the scene */
       background-color: rgba(0, 0, 0, 0);
       padding: 10px;
@@ -44,4 +45,4 @@
     p {
       margin: 5px 0;
     }
-  
+  </style>
