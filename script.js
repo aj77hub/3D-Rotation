@@ -1,4 +1,3 @@
-
 import * as THREE from 'three'; 
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'; 
@@ -15,18 +14,18 @@ document.body.appendChild( renderer.domElement );
 
 const scene = new THREE.Scene();
 
-/*  // Create a TextureLoader
+// Create a TextureLoader
 const loaderT = new THREE.TextureLoader();
 //Load the image and set it as the scene background !! Make Sure the image is from HTTPS
-loaderT.load('/DarkSky.jpg', 
-             
+loaderT.load('https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmExoSXw4EagCsfVbmAPIc.jpg', 
+
     function(texture) {
-  
+
     scene.background = texture;
 }, undefined, function(err) {
     console.error('An error occurred loading the background image:', err);
 });
-loaderT.load('/DarkSky.jpg',
+loaderT.load(  'https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmExoSXw4EagCsfVbmAPIc.jpg',
   function (texture) {
     texture.encoding = THREE.sRGBEncoding;
 
@@ -46,8 +45,6 @@ loaderT.load('/DarkSky.jpg',
     scene.background = darkTexture;
   }
 );
-
-*/
 
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(0, 0, 2);
@@ -116,15 +113,15 @@ brightnessSlider.addEventListener('input', (event) => {
 
     loader.load(
         // Path to your .gltf or .glb file
-        '/MushroomHouse.glb',      
-      
+        'https://cdn.tinyglb.com/models/c059175b3c22405e90d5d5a284fa2de5.glb',      
+
         // Called when the resource is loaded
         function (gltf) {
-          
+
           const model = gltf.scene;
-          
+
            // Creates ability to move the model by arrows keys 
-          
+
           document.addEventListener("keydown", (event) => {
     switch (event.key) {
         case "ArrowUp":
@@ -141,19 +138,19 @@ brightnessSlider.addEventListener('input', (event) => {
             break;
     }
 });
-          
+
           //Forces Double-Sided Material
           model.traverse((child) => {
   if (child.isMesh) {
     child.material.side = THREE.DoubleSide;
   }
 });
-         
+
 
     // Rotate the model 90 degrees around the Y-axis
     model.rotation.y = Math.PI /-2;
           scene.add(model);// Add the loaded model's scene to your Three.js scene
-            
+
             console.log('Model loaded successfully!');
             // You can also access animations, cameras, etc. from gltf.animations, gltf.cameras
         },
@@ -172,22 +169,10 @@ brightnessSlider.addEventListener('input', (event) => {
 
 //This will Render the scene so you can see the object
 function animate() {
-  
+
 //If you want the cube to animate Activate this
   //cube.rotation.x += 0.00;
   //cube.rotation.y += 0.005;
   renderer.render( scene, camera );
 }
 renderer.setAnimationLoop( animate );
-
-
-
-
-
-
-
-
-
-
-
-
