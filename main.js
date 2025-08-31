@@ -17,7 +17,7 @@ const scene = new THREE.Scene();
 // Create a TextureLoader
 const loaderT = new THREE.TextureLoader();
 //Load the image and set it as the scene background !! Make Sure the image is from HTTPS
-loaderT.load('https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmExoSXw4EagCsfVbmAPIc.jpg', 
+loaderT.load('./DarkSky.jpg', 
              
     function(texture) {
   
@@ -25,7 +25,7 @@ loaderT.load('https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmE
 }, undefined, function(err) {
     console.error('An error occurred loading the background image:', err);
 });
-loaderT.load(  'https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmExoSXw4EagCsfVbmAPIc.jpg',
+loaderT.load(  './DarkSky.jpg',
   function (texture) {
     texture.encoding = THREE.sRGBEncoding;
 
@@ -67,12 +67,12 @@ scene.add( plane );*/
 //scene.background = new THREE.Color( 0xff0000 );
 //scene.background = //loader.load('http://songnes.com/gift/images/andro.jpg');
 
-/*
+
 // Cube Model
 const geometry = new THREE.BoxGeometry( 0,0,0 );
 const material = new THREE.MeshPhongMaterial( { color: 0xFF7F50 } );
 const cube = new THREE.Mesh( geometry, material );
-scene.add( cube );*/
+scene.add( cube );
 
 
 //Light is added
@@ -113,7 +113,7 @@ brightnessSlider.addEventListener('input', (event) => {
 
     loader.load(
         // Path to your .gltf or .glb file
-        'https://cdn.tinyglb.com/models/c059175b3c22405e90d5d5a284fa2de5.glb',      
+        './Joeyblend.glb',      
       
         // Called when the resource is loaded
         function (gltf) {
@@ -121,6 +121,7 @@ brightnessSlider.addEventListener('input', (event) => {
           const model = gltf.scene;
           
            // Creates ability to move the model by arrows keys 
+          /*
           
           document.addEventListener("keydown", (event) => {
     switch (event.key) {
@@ -137,14 +138,14 @@ brightnessSlider.addEventListener('input', (event) => {
             model.position.x += 0.1; // move right
             break;
     }
-});
+});*/
           
           //Forces Double-Sided Material
-          model.traverse((child) => {
+          /*  model.traverse((child) => {
   if (child.isMesh) {
     child.material.side = THREE.DoubleSide;
   }
-});
+});*/
          
 
     // Rotate the model 90 degrees around the Y-axis
@@ -168,8 +169,8 @@ brightnessSlider.addEventListener('input', (event) => {
 function animate() {
   
 //If you want the cube to animate Activate this
-  //cube.rotation.x += 0.00;
-  //cube.rotation.y += 0.005;
+  cube.rotation.x += 0.00;
+  cube.rotation.y += 0.005;
   renderer.render( scene, camera );
 }
 renderer.setAnimationLoop( animate );
