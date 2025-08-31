@@ -113,57 +113,9 @@ brightnessSlider.addEventListener('input', (event) => {
 
     loader.load(
         // Path to your .gltf or .glb file
-        './Joeyblend.glb',      
-      
-        // Called when the resource is loaded
-        function (gltf) {
-          
-          const model = gltf.scene;
-          
-           // Creates ability to move the model by arrows keys 
-          /*
-          
-          document.addEventListener("keydown", (event) => {
-    switch (event.key) {
-        case "ArrowUp":
-            model.position.y += 0.1; // move up
-            break;
-        case "ArrowDown":
-            model.position.y -= 0.1; // move down
-            break;
-        case "ArrowLeft":
-            model.position.x -= 0.1; // move left
-            break;
-        case "ArrowRight":
-            model.position.x += 0.1; // move right
-            break;
-    }
-});*/
-          
-          //Forces Double-Sided Material
-          /*  model.traverse((child) => {
-  if (child.isMesh) {
-    child.material.side = THREE.DoubleSide;
-  }
-});*/
-         
+        './Joeyblend.glb',             
+   
 
-    // Rotate the model 90 degrees around the Y-axis
-    model.rotation.y = Math.PI /-2;
-          scene.add(model);// Add the loaded model's scene to your Three.js scene
-            
-            console.log('Model loaded successfully!');
-            // You can also access animations, cameras, etc. from gltf.animations, gltf.cameras
-        },
-        // Called while loading is progressing
-        function (xhr) {
-            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-        },
-        // Called when loading has errors
-        function (error) {
-            console.error('An error occurred while loading the model:', error);
-        }
-    );
 
 //This will Render the scene so you can see the object
 function animate() {
