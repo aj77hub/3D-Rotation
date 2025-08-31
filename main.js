@@ -1,79 +1,25 @@
-import * as THREE from 'three'; 
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'; 
+import * as THREE from 'three';
 
-// Renderer setup
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setClearColor(0x404040); // Optional solid background
-document.body.appendChild(renderer.domElement);
-
-// Scene setup
 const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
-// Background texture
-const loaderT = new THREE.TextureLoader();
-loaderT.load('./DarkSky.jpg', (texture) => {
-  texture.encoding = THREE.sRGBEncoding;
-  scene.background = texture;
-}, undefined, (err) => {
-  console.error('Error loading background image:', err);
-});
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize( window.innerWidth, window.innerHeight );
+renderer.setAnimationLoop( animate );
+document.body.appendChild( renderer.domElement );
 
-// Camera setup
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 0, 2);
-camera.lookAt(0, 0, 0);
+const geometry = new THREE.BoxGeometry( 1, 1, 1 );
+const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+const cube = new THREE.Mesh( geometry, material );
+scene.add( cube );
 
-// Controls
-const controls = new OrbitControls(camera, renderer.domElement);
+camera.position.z = 5;
 
-// Lighting
-const light = new THREE.AmbientLight(0xffffff, 3);
-scene.add(light);
-
-// Optional: Color picker logic (ensure these elements exist in your HTML)
-const colorPicker = document.getElementById('colorPicker');
-const colorValue = document.getElementById('colorValue');
-
-if (colorPicker && colorValue) {
-  colorPicker.addEventListener('input', (event) => {
-    const newColor = event.target.value;
-    light.color.set(newColor);
-    colorValue.textContent = newColor;
-  });
-}
-
-// Load GLTF model
-const loader = new GLTFLoader();
-loader.load(
-  './MushroomHouse.glb',
-  (gltf) => {
-    const model = gltf.scene;
-
-    // Double-sided materials
-    model.traverse((child) => {
-      if (child.isMesh) {
-        child.material.side = THREE.DoubleSide;
-      }
-    });
-
-    // Rotate model
-    model.rotation.y = -Math.PI / 2;
-
-    scene.add(model);
-    console.log('Model loaded successfully!');
-  },
-  (xhr) => {
-    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-  },
-  (error) => {
-    console.error('Error loading model:', error);
-  }
-);
-
-// Animation loop
 function animate() {
-  renderer.render(scene, camera);
+
+	cube.rotation.x += 0.01;
+	cube.rotation.y += 0.01;
+
+	renderer.render( scene, camera );
+
 }
-renderer.setAnimationLoop(animate);
