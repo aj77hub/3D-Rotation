@@ -10,42 +10,7 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 //if you need a solid color on the background use below line and disable the Texture loader 
 renderer.setClearColor(  0x404040 ) ;
 document.body.appendChild( renderer.domElement );
-
-
 const scene = new THREE.Scene();
-
-// Create a TextureLoader
-const loaderT = new THREE.TextureLoader();
-//Load the image and set it as the scene background !! Make Sure the image is from HTTPS
-loaderT.load('./DarkSky.jpg', 
-             
-    function(texture) {
-  
-    scene.background = texture;
-}, undefined, function(err) {
-    console.error('An error occurred loading the background image:', err);
-});
-loaderT.load(  './DarkSky.jpg',
-  function (texture) {
-    texture.encoding = THREE.sRGBEncoding;
-
-    // Darken pixels directly
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const img = texture.image;
-    canvas.width = img.width;
-    canvas.height = img.height;
-    ctx.drawImage(img, 0, 0);
-
-    // Apply a dark filter
-    ctx.fillStyle = 'rgba(0,0,0,.5)'; // 0.5 opacity black overlay
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    const darkTexture = new THREE.CanvasTexture(canvas);
-    scene.background = darkTexture;
-  }
-);
-
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(0, 0, 2);
 camera.lookAt(0, 0, 0);// Makes the camera look at the origin.
@@ -53,19 +18,19 @@ camera.lookAt(0, 0, 0);// Makes the camera look at the origin.
 
 const controls = new OrbitControls( camera, renderer.domElement );
 
+  const loader = new GLTFLoader();
+
+loader.load( './Joeyblend.glb', function ( gltf ) {
+
+  scene.add( gltf.scene );
+
+}, undefined, function ( error ) {
+
+  console.error( error );
+
+} );
 
 
-/*const geometry = new THREE.PlaneGeometry( 1,1,1);
-geometry.rotateX(-Math.PI / 2);
-geometry.rotateY(-Math.PI / 2);
-geometry.rotateZ(-Math.PI / 2);
-const material = new THREE.MeshBasicMaterial( {color: 0xd3d3d3, side: THREE.DoubleSide} );
-const plane = new THREE.Mesh( geometry, material );
-scene.add( plane );*/
-
-
-//scene.background = new THREE.Color( 0xff0000 );
-//scene.background = //loader.load('http://songnes.com/gift/images/andro.jpg');
 
 
 // Cube Model
@@ -80,49 +45,15 @@ scene.add( cube );
 const light = new THREE.AmbientLight(0xFFFFFF, 3); // initial brightness set to 3
 scene.add(light);
 
-// Hemisphere Light setup
-const light2 = new THREE.HemisphereLight(0xFFFFFF, 0x080820, 5); // initial brightness set to 5
-scene.add(light2);
-
-// Select sliders and values
-const brightnessSlider = document.getElementById('brightnessSlider');
-const brightnessValue = document.getElementById('brightnessValue');
-
-const colorSlider = document.getElementById('colorSlider');
-const colorValue = document.getElementById('colorValue');
-
-// Update light brightness
-brightnessSlider.addEventListener('input', (event) => {
-  const newBrightness = event.target.value;
-  light.intensity = newBrightness; // Update ambient light brightness
-  light2.intensity = newBrightness; // Update hemisphere light brightness
-  brightnessValue.textContent = newBrightness; // Update display value
-});
-
-  // Update light color intensity (using hex color value)
-    colorPicker.addEventListener('input', (event) => {
-      const newColor = event.target.value;
-      light.color.set(newColor); // Change the color intensity of ambient light
-      light2.color.set(newColor); // Change the color intensity of hemisphere light
-      colorValue.textContent = newColor; // Update display value
-    });
 
 
 
-
-
-    loader.load(
-        // Path to your .gltf or .glb file
-        './Joeyblend.glb',             
    
 
 
 //This will Render the scene so you can see the object
 function animate() {
   
-//If you want the cube to animate Activate this
-  cube.rotation.x += 0.00;
-  cube.rotation.y += 0.005;
   renderer.render( scene, camera );
 }
 renderer.setAnimationLoop( animate );
