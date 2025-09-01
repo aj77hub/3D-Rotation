@@ -12,11 +12,6 @@ renderer.setClearColor(  0x404040 ) ;
 document.body.appendChild( renderer.domElement );
 const scene = new THREE.Scene();
 
-loader.load( './MushroomHouse.glb', function ( gltf ) {
-  scene.add( gltf.scene );
-}, undefined, function ( error ) {
-  console.error( error );
-} );
 
 
 
