@@ -113,7 +113,7 @@ brightnessSlider.addEventListener('input', (event) => {
 
     loader.load(
         // Path to your .gltf or .glb file
-        'https://cdn.tinyglb.com/models/c059175b3c22405e90d5d5a284fa2de5.glb',      
+        './mushroom_house_2.glb',      
       
         // Called when the resource is loaded
         function (gltf) {
