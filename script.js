@@ -19,6 +19,10 @@ const loaderT = new THREE.TextureLoader();
 //Load the image and set it as the scene background !! Make Sure the image is from HTTPS
 loaderT.load('./DarkSky.jpg', 
              
+             // Set the width and height in pixels
+loaderT.width = 300; // Sets width to 300 pixels
+loaderT.height = 200; // Sets height to 200 pixels
+             
     function(texture) {
   
     scene.background = texture;
