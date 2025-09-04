@@ -16,9 +16,9 @@
 
     /* Container for the scene */
     #scene-container {
-      position: relative;
-      width: 100%;
-      height: 100%;
+      position: absolute;
+      width: 50%;
+      height: 50%;
     }
 
     /* Slider container styling */
