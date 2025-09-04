@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>3D Rotation</title>
-     <link rel="stylesheet" href="./style.css">
+    <title>My first three.js app</title>
+      <link rel="stylesheet" href="./style.css">
   
     <script type="importmap">
 {
@@ -13,12 +14,17 @@
   }
 }
 </script>
-    <script type="module" src="./script.js"></script>
   </head>
 <body>
+  <!--place a 3D model in your website:
+  
+  <iframe src="https://tinyglb.com/viewer/bfac9e0556e34b4c854e67b709b891ac" style="border: 0; height: 600px; width: 50%"></iframe>
+  
+  -->  
+
   <div id="scene-container">
     <!-- This will hold the 3D scene canvas -->
-    <canvas id="threeCanvas" ></canvas>
+    <canvas id="threeCanvas"  width: 471px; height: 400px;></canvas>
 
     <!-- Slider container -->
     <div id="sliderContainer">
@@ -32,11 +38,15 @@
       <label for="colorPicker"><span style="font-size: 2em;">💡</span></label>
       <input type="color" id="colorPicker" value="#FFFFFF">
       <!--<p>Color Intensity: <span id="colorValue">#FFFFFF</span></p>-->
+       
     </div>
   </div>
 
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  
+    <script type="module" src="./script.js"></script>
   </body>
- 
-</html>
 
+
+
+</html>
