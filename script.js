@@ -17,7 +17,7 @@ const scene = new THREE.Scene();
 // Create a TextureLoader
 const loaderT = new THREE.TextureLoader();
 //Load the image and set it as the scene background !! Make Sure the image is from HTTPS
-loaderT.load('https://i.imgur.com/z117eQD.jpeg', 
+loaderT.load('https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmExoSXw4EagCsfVbmAPIc.jpg', 
 
              //imgru file  "https://i.imgur.com/z117eQD.jpeg"
              
@@ -28,7 +28,7 @@ loaderT.load('https://i.imgur.com/z117eQD.jpeg',
 }, undefined, function(err) {
     console.error('An error occurred loading the background image:', err);
 });
-loaderT.load('https://i.imgur.com/z117eQD.jpeg',
+loaderT.load('https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmExoSXw4EagCsfVbmAPIc.jpg',
   function (texture) {
     texture.encoding = THREE.sRGBEncoding;
 
