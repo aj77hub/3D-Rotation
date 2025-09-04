@@ -17,7 +17,7 @@ const scene = new THREE.Scene();
 // Create a TextureLoader
 const loaderT = new THREE.TextureLoader();
 //Load the image and set it as the scene background !! Make Sure the image is from HTTPS
-loaderT.load('../asset/Navy-BG.jpg', 
+loaderT.load('asset/Navy-BG.jpg', 
              
 
     function(texture) {
@@ -26,7 +26,7 @@ loaderT.load('../asset/Navy-BG.jpg',
 }, undefined, function(err) {
     console.error('An error occurred loading the background image:', err);
 });
-loaderT.load('../asset/Navy-BG.jpg',
+loaderT.load('asset/Navy-BG.jpg',
   function (texture) {
     texture.encoding = THREE.sRGBEncoding;
 
