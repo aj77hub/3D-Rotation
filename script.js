@@ -1,3 +1,4 @@
+
 import * as THREE from 'three'; 
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'; 
@@ -15,23 +16,17 @@ document.body.appendChild( renderer.domElement );
 const scene = new THREE.Scene();
 
 // Create a TextureLoader
-
-//Load the image and set it as the scene background !! Make Sure the image is from HTTPS
-
 const loaderT = new THREE.TextureLoader();
-
-
+//Load the image and set it as the scene background !! Make Sure the image is from HTTPS
 loaderT.load('https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmExoSXw4EagCsfVbmAPIc.jpg', 
-     
+             
     function(texture) {
   
     scene.background = texture;
 }, undefined, function(err) {
     console.error('An error occurred loading the background image:', err);
 });
-
-// use path like this for local files.  "./asset/Navy-BG.jpg"
-loaderT.load('https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmExoSXw4EagCsfVbmAPIc.jpg',
+loaderT.load(  'https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmExoSXw4EagCsfVbmAPIc.jpg',
   function (texture) {
     texture.encoding = THREE.sRGBEncoding;
 
