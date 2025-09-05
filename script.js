@@ -5,11 +5,14 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 
 const loader = new GLTFLoader();
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight );
+const container = document.getElementById("scene-container");
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(container.clientWidth, container.clientHeight);
+container.appendChild(renderer.domElement);
+
 //if you need a solid color on the background use below line and disable the Texture loader 
 renderer.setClearColor(  0x404040 ) ;
-document.body.appendChild( renderer.domElement );
+
 
 
 const scene = new THREE.Scene();
@@ -52,7 +55,13 @@ loaderT.load('https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmE
   }
 );
 
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(
+  45,
+  container.clientWidth / container.clientHeight,
+  0.1,
+  1000
+);
+
 camera.position.set(0, 0, 2);
 camera.lookAt(0, 0, 0);// Makes the camera look at the origin.
 
@@ -179,6 +188,7 @@ function animate() {
 //If you want the cube to animate Activate this
   //cube.rotation.x += 0.00;
   //cube.rotation.y += 0.005;
+  
   renderer.render( scene, camera );
 }
 renderer.setAnimationLoop( animate );
