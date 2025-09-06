@@ -23,8 +23,9 @@ const scene = new THREE.Scene();
 
 const loaderT = new THREE.TextureLoader();
 
+//https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmExoSXw4EagCsfVbmAPIc.jpg
 
-loaderT.load('https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmExoSXw4EagCsfVbmAPIc.jpg', 
+loaderT.load('https://i.imgur.com/Lz8ofWr.jpeg', 
      
     function(texture) {
   
@@ -34,7 +35,7 @@ loaderT.load('https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmE
 });
 
 // use path like this for local files.  "./asset/Navy-BG.jpg"
-loaderT.load('https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmExoSXw4EagCsfVbmAPIc.jpg',
+loaderT.load('https://i.imgur.com/Lz8ofWr.jpeg',
   function (texture) {
     texture.encoding = THREE.sRGBEncoding;
 
