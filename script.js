@@ -48,7 +48,7 @@ loaderT.load('https://i.imgur.com/znWbJae.jpeg',
     ctx.drawImage(img, 0, 0);
 
     // Apply a dark filter
-    ctx.fillStyle = 'rgba(0,0,0,0)'; // 0.5 opacity black overlay
+    ctx.fillStyle = 'rgba(0,0,0,0.8)'; // 0.5 opacity black overlay
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     const darkTexture = new THREE.CanvasTexture(canvas);
