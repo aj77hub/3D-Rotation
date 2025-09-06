@@ -25,7 +25,7 @@ const loaderT = new THREE.TextureLoader();
 
 //https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmExoSXw4EagCsfVbmAPIc.jpg
 
-loaderT.load('https://i.imgur.com/Lz8ofWr.jpeg', 
+loaderT.load('https://i.imgur.com/znWbJae.jpeg', 
      
     function(texture) {
   
@@ -35,7 +35,7 @@ loaderT.load('https://i.imgur.com/Lz8ofWr.jpeg',
 });
 
 // use path like this for local files.  "./asset/Navy-BG.jpg"
-loaderT.load('https://i.imgur.com/Lz8ofWr.jpeg',
+loaderT.load('https://i.imgur.com/znWbJae.jpeg',
   function (texture) {
     texture.encoding = THREE.sRGBEncoding;
 
@@ -48,7 +48,7 @@ loaderT.load('https://i.imgur.com/Lz8ofWr.jpeg',
     ctx.drawImage(img, 0, 0);
 
     // Apply a dark filter
-    ctx.fillStyle = 'rgba(0,0,0,.5)'; // 0.5 opacity black overlay
+    ctx.fillStyle = 'rgba(0,0,0,0)'; // 0.5 opacity black overlay
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     const darkTexture = new THREE.CanvasTexture(canvas);
