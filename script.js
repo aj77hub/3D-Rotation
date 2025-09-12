@@ -1,3 +1,4 @@
+
 import * as THREE from 'three'; 
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'; 
@@ -25,7 +26,7 @@ const loaderT = new THREE.TextureLoader();
 
 //https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmExoSXw4EagCsfVbmAPIc.jpg
 
-loaderT.load('https://i.imgur.com/znWbJae.jpeg', 
+loaderT.load('./DarkSky-L5.jpg', 
      
     function(texture) {
   
@@ -35,7 +36,7 @@ loaderT.load('https://i.imgur.com/znWbJae.jpeg',
 });
 
 // use path like this for local files.  "./asset/Navy-BG.jpg"
-loaderT.load('https://i.imgur.com/znWbJae.jpeg',
+loaderT.load('./DarkSky-L5.jpg',
   function (texture) {
     texture.encoding = THREE.sRGBEncoding;
 
@@ -60,24 +61,25 @@ const camera = new THREE.PerspectiveCamera(
   45,
   container.clientWidth / container.clientHeight,
   0.1,
-  1000
+  500
 );
 
-camera.position.set(0, 0, 2);
+camera.position.set(5, 5, 5);
 camera.lookAt(0, 0, 0);// Makes the camera look at the origin.
 
 
 const controls = new OrbitControls( camera, renderer.domElement );
 
 
-
-/*const geometry = new THREE.PlaneGeometry( 1,1,1);
+/*
+const geometry = new THREE.PlaneGeometry( 1,1,1);
 geometry.rotateX(-Math.PI / 2);
 geometry.rotateY(-Math.PI / 2);
 geometry.rotateZ(-Math.PI / 2);
 const material = new THREE.MeshBasicMaterial( {color: 0xd3d3d3, side: THREE.DoubleSide} );
 const plane = new THREE.Mesh( geometry, material );
-scene.add( plane );*/
+scene.add( plane );
+*/
 
 
 //scene.background = new THREE.Color( 0xff0000 );
@@ -96,9 +98,7 @@ scene.add( cube );*/
 const light = new THREE.AmbientLight(0xFFFFFF, 3); // initial brightness set to 3
 scene.add(light);
 
-// Hemisphere Light setup
-const light2 = new THREE.HemisphereLight(0xFFFFFF, 0x080820, 5); // initial brightness set to 5
-scene.add(light2);
+
 
 // Select sliders and values
 const brightnessSlider = document.getElementById('brightnessSlider');
@@ -125,18 +125,34 @@ brightnessSlider.addEventListener('input', (event) => {
 
 
 
+let mixer; // Declare mixer in outer scope
+const clock = new THREE.Clock(); // Needed for delta time
 
-
-    loader.load(
-        // Path to your .gltf or .glb file
-        'https://cdn.tinyglb.com/models/c059175b3c22405e90d5d5a284fa2de5.glb',      
-      
-        // Called when the resource is loaded
+    loader.load('./JoeyblendBox.glb',      
         function (gltf) {
-          
           const model = gltf.scene;
+          scene.add(model);
+
+        
+// Create an AnimationMixer, and get the list of AnimationClip instances
+const mixer = new THREE.AnimationMixer( model );
+const clips = gltf.animations;
+
+clips.forEach(function (clip) {
+    mixer.clipAction(clip).play();
+  });
+
+  // ✅ Update the mixer in your animation loop
+  renderer.setAnimationLoop(function () {
+    const delta = clock.getDelta();
+    mixer.update(delta);
+    renderer.render(scene, camera);
+  });
+
+  console.log('Model loaded successfully!');
+});        
           
-           // Creates ability to move the model by arrows keys 
+           /*// Creates ability to move the model by arrows keys 
           
           document.addEventListener("keydown", (event) => {
     switch (event.key) {
@@ -153,17 +169,12 @@ brightnessSlider.addEventListener('input', (event) => {
             model.position.x += 0.1; // move right
             break;
     }
-});
+});*/
           
-          //Forces Double-Sided Material
-          model.traverse((child) => {
-  if (child.isMesh) {
-    child.material.side = THREE.DoubleSide;
-  }
-});
+
          
 
-    // Rotate the model 90 degrees around the Y-axis
+   /* // Rotate the model 90 degrees around the Y-axis
     model.rotation.y = Math.PI /-2;
           scene.add(model);// Add the loaded model's scene to your Three.js scene
             
@@ -179,9 +190,7 @@ brightnessSlider.addEventListener('input', (event) => {
             console.error('An error occurred while loading the model:', error);
         }
     );
-
-
-
+    */
 
 //This will Render the scene so you can see the object
 function animate() {
