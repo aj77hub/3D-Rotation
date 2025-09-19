@@ -1,204 +1,128 @@
-
-import * as THREE from 'three'; 
+ import * as THREE from 'three'; 
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'; 
 
+// === DOM elements for loader overlay and thumbnails ===
+const loaderOverlay = document.getElementById("loader");
+const thumbnails = document.querySelectorAll("#thumbnails img");
 
-
+// === Three.js setup ===
 const loader = new GLTFLoader();
 const container = document.getElementById("scene-container");
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(container.clientWidth, container.clientHeight);
 container.appendChild(renderer.domElement);
 
-//if you need a solid color on the background use below line and disable the Texture loader 
-renderer.setClearColor(  0x404040 ) ;
-
-
-
 const scene = new THREE.Scene();
 
-// Create a TextureLoader
-
-//Load the image and set it as the scene background !! Make Sure the image is from HTTPS
-
-const loaderT = new THREE.TextureLoader();
-
-//https://t4.ftcdn.net/jpg/04/33/16/71/360_F_433167186_bnAhGZ4fANlmExoSXw4EagCsfVbmAPIc.jpg
-
-loaderT.load('./DarkSky-L5.jpg', 
-     
-    function(texture) {
-  
-    scene.background = texture;
-}, undefined, function(err) {
-    console.error('An error occurred loading the background image:', err);
-});
-
-// use path like this for local files.  "./asset/Navy-BG.jpg"
-loaderT.load('./DarkSky-L5.jpg',
-  function (texture) {
-    texture.encoding = THREE.sRGBEncoding;
-
-    // Darken pixels directly
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const img = texture.image;
-    canvas.width = img.width;
-    canvas.height = img.height;
-    ctx.drawImage(img, 0, 0);
-
-    // Apply a dark filter
-    ctx.fillStyle = 'rgba(0,0,0,0.8)'; // 0.5 opacity black overlay
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    const darkTexture = new THREE.CanvasTexture(canvas);
-    scene.background = darkTexture;
-  }
-);
-
+// === Camera ===
 const camera = new THREE.PerspectiveCamera(
-  45,
+  30,
   container.clientWidth / container.clientHeight,
-  0.1,
+  1,
   500
 );
+camera.position.set(10,10,10);
+camera.lookAt(0, 0, 0);
 
-camera.position.set(5, 5, 5);
-camera.lookAt(0, 0, 0);// Makes the camera look at the origin.
+// === OrbitControls with full rotation unlocked ===
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.rotateSpeed = 0.8;
+controls.zoomSpeed = 1.2;
+controls.panSpeed = 0.8;
+controls.minDistance = 0.5;  // can zoom in very close
+controls.maxDistance = 50;   // can zoom far out
 
+// FULL rotation freedom
+controls.minPolarAngle = 0;          // straight up
+controls.maxPolarAngle = Math.PI;    // straight down
+controls.minAzimuthAngle = -Infinity;
+controls.maxAzimuthAngle = Infinity;
 
-const controls = new OrbitControls( camera, renderer.domElement );
-
-
-/*
-const geometry = new THREE.PlaneGeometry( 1,1,1);
-geometry.rotateX(-Math.PI / 2);
-geometry.rotateY(-Math.PI / 2);
-geometry.rotateZ(-Math.PI / 2);
-const material = new THREE.MeshBasicMaterial( {color: 0xd3d3d3, side: THREE.DoubleSide} );
-const plane = new THREE.Mesh( geometry, material );
-scene.add( plane );
-*/
-
-
-//scene.background = new THREE.Color( 0xff0000 );
-//scene.background = //loader.load('http://songnes.com/gift/images/andro.jpg');
-
-/*
-// Cube Model
-const geometry = new THREE.BoxGeometry( 0,0,0 );
-const material = new THREE.MeshPhongMaterial( { color: 0xFF7F50 } );
-const cube = new THREE.Mesh( geometry, material );
-scene.add( cube );*/
-
-
-//Light is added
-// Ambient Light setup
-const light = new THREE.AmbientLight(0xFFFFFF, 3); // initial brightness set to 3
+// === Lighting ===
+const light = new THREE.AmbientLight(0xFFFFFF, 3);
 scene.add(light);
 
+// === Animation mixer ===
+let mixer;
+let currentModel;
+const clock = new THREE.Clock();
 
+// === Fit camera to object ===
+function fitCameraToObject(camera, object, offset = 1) {
+  const box = new THREE.Box3().setFromObject(object);
+  const size = box.getSize(new THREE.Vector3());
+  const center = box.getCenter(new THREE.Vector3());
 
-// Select sliders and values
-const brightnessSlider = document.getElementById('brightnessSlider');
-const brightnessValue = document.getElementById('brightnessValue');
+  const maxDim = Math.max(size.x, size.y, size.z);
+  const fov = camera.fov * (Math.PI / 180);
+  let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2)) * offset;
 
-const colorSlider = document.getElementById('colorSlider');
-const colorValue = document.getElementById('colorValue');
+  camera.position.set(center.x, center.y , center.z + 20);
+  camera.lookAt(center);
+  controls.target.copy(center);
+  controls.update();
+}
 
-// Update light brightness
-brightnessSlider.addEventListener('input', (event) => {
-  const newBrightness = event.target.value;
-  light.intensity = newBrightness; // Update ambient light brightness
-  light2.intensity = newBrightness; // Update hemisphere light brightness
-  brightnessValue.textContent = newBrightness; // Update display value
+// === Function to load models ===
+function loadModel(url) {
+  loaderOverlay.style.display = "flex"; // Show loader
+
+  loader.load(
+    url,
+    function (gltf) {
+      // Remove old model if exists
+      if (currentModel) {
+        scene.remove(currentModel);
+        currentModel.traverse(child => {
+          if (child.isMesh) {
+            child.geometry.dispose();
+            if (child.material.map) child.material.map.dispose();
+            child.material.dispose();
+          }
+        });
+      }
+
+      currentModel = gltf.scene;
+      scene.add(currentModel);
+
+      // Auto-fit camera to new model
+      fitCameraToObject(camera, currentModel);
+
+      mixer = new THREE.AnimationMixer(currentModel);
+      gltf.animations.forEach(clip => mixer.clipAction(clip).play());
+
+      loaderOverlay.style.display = "none"; // Hide loader
+    },
+    function (xhr) {
+      const percent = (xhr.loaded / xhr.total * 100).toFixed(0);
+      loaderOverlay.querySelector("p").textContent = `Loading ${percent}%`;
+    },
+    function (error) {
+      console.error("Error loading model:", error);
+      loaderOverlay.style.display = "none";
+    }
+  );
+}
+
+// === Initial model load ===
+loadModel("./asset/MushroomHouse1.glb");
+
+// === Thumbnail click events ===
+thumbnails.forEach(img => {
+  img.addEventListener("click", () => {
+    const modelUrl = img.getAttribute("data-model");
+    loadModel(modelUrl);
+  });
 });
 
-  // Update light color intensity (using hex color value)
-    colorPicker.addEventListener('input', (event) => {
-      const newColor = event.target.value;
-      light.color.set(newColor); // Change the color intensity of ambient light
-      light2.color.set(newColor); // Change the color intensity of hemisphere light
-      colorValue.textContent = newColor; // Update display value
-    });
 
-
-
-let mixer; // Declare mixer in outer scope
-const clock = new THREE.Clock(); // Needed for delta time
-
-    loader.load('./JoeyblendBox.glb',      
-        function (gltf) {
-          const model = gltf.scene;
-          scene.add(model);
-
-        
-// Create an AnimationMixer, and get the list of AnimationClip instances
-const mixer = new THREE.AnimationMixer( model );
-const clips = gltf.animations;
-
-clips.forEach(function (clip) {
-    mixer.clipAction(clip).play();
-  });
-
-  // ✅ Update the mixer in your animation loop
-  renderer.setAnimationLoop(function () {
-    const delta = clock.getDelta();
-    mixer.update(delta);
-    renderer.render(scene, camera);
-  });
-
-  console.log('Model loaded successfully!');
-});        
-          
-           /*// Creates ability to move the model by arrows keys 
-          
-          document.addEventListener("keydown", (event) => {
-    switch (event.key) {
-        case "ArrowUp":
-            model.position.y += 0.1; // move up
-            break;
-        case "ArrowDown":
-            model.position.y -= 0.1; // move down
-            break;
-        case "ArrowLeft":
-            model.position.x -= 0.1; // move left
-            break;
-        case "ArrowRight":
-            model.position.x += 0.1; // move right
-            break;
-    }
-});*/
-          
-
-         
-
-   /* // Rotate the model 90 degrees around the Y-axis
-    model.rotation.y = Math.PI /-2;
-          scene.add(model);// Add the loaded model's scene to your Three.js scene
-            
-            console.log('Model loaded successfully!');
-            // You can also access animations, cameras, etc. from gltf.animations, gltf.cameras
-        },
-        // Called while loading is progressing
-        function (xhr) {
-            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-        },
-        // Called when loading has errors
-        function (error) {
-            console.error('An error occurred while loading the model:', error);
-        }
-    );
-    */
-
-//This will Render the scene so you can see the object
-function animate() {
-  
-//If you want the cube to animate Activate this
-  //cube.rotation.x += 0.00;
-  //cube.rotation.y += 0.005;
-  
-  renderer.render( scene, camera );
-}
-renderer.setAnimationLoop( animate );
+// === Animation loop ===
+renderer.setAnimationLoop(() => {
+  const delta = clock.getDelta();
+  if (mixer) mixer.update(delta);
+  controls.update();
+  renderer.render(scene, camera);
+});
