@@ -15,24 +15,29 @@
 </script>
   </head>
 <body>
+
+  <body>
+<div id="app-wrapper">
+  
+  <!-- Scene container -->
   <div id="scene-container">
-    <!-- This will hold the 3D scene canvas -->
-    <canvas id="threeCanvas" ></canvas>
-
-    <!-- Slider container -->
-    <div id="sliderContainer">
-      <!-- Brightness Slider -->
-      <label for="brightnessSlider"><span style="font-size: 2em;">☀️</span></label>
-      <input type="range" id="brightnessSlider" min="0" max="10" step="0.1" value="3">
-      <!--<p>Brightness: <span id="brightnessValue">3</span></p>-->
-
-      <!-- Color Picker for Color Intensity -->
-      
-      <label for="colorPicker"><span style="font-size: 2em;">💡</span></label>
-      <input type="color" id="colorPicker" value="#FFFFFF">
-      <!--<p>Color Intensity: <span id="colorValue">#FFFFFF</span></p>-->
-    </div>
+    <canvas id="threeCanvas"></canvas>
   </div>
+
+  <!-- Loader overlay -->
+  <div id="loader">
+    <div class="spinner"></div>
+    <p>Loading 3D Model...</p>
+  </div>
+
+  <!-- Thumbnails -->
+  <div id="thumbnails">
+    <img src="./asset/MushroomHouse1.png" data-model="./asset/MushroomHouse1.glb" alt="Model 1">
+    <img src="./asset/LilCaesars.png" data-model="https://cdn.tinyglb.com/models/b326b8cd114d4865b3466133ef7a9853.glb" alt="Model 2">
+    <img src="./asset/Navy-BG.jpg" data-model="./asset/MushroomHouse2.glb" alt="Model 3">
+  </div>
+
+</div>
 <script type="module" src="./script.js"></script>
 
   </body>
