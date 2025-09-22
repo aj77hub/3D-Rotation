@@ -108,7 +108,7 @@ function loadModel(url) {
 }
 
 // === Initial model load ===
-loadModel("./asset/MushroomHouse1.glb");
+loadModel("https://github.com/aj77hub/3D-Rotation/raw/refs/heads/main/asset/MushroomHouse1.glb");
 
 // === Thumbnail click events ===
 thumbnails.forEach(img => {
