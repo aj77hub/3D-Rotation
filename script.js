@@ -108,7 +108,7 @@ function loadModel(url) {
 }
 
 // === Initial model load ===
-loadModel("https://skfb.ly/pBuEF");
+loadModel("https://3d-assests.netlify.app/asset/mushroomhouse1.glb");
 
 // === Thumbnail click events ===
 thumbnails.forEach(img => {
