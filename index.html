@@ -1,53 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>My first three.js app</title>
-     <link rel="stylesheet" href="./style.css">
-  
-    <script type="importmap">
-{
-  "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.179.1/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.179.1/examples/jsm/"
-  }
-}
-</script>
-  </head>
+<head>
+  <meta charset="utf-8">
+  <title>My first three.js app</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.179.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.179.1/examples/jsm/"
+      }
+    }
+  </script>
+</head>
 <body>
-  <body>
+  <div id="app-wrapper">
+    <div id="scene-container">
+      <canvas id="threeCanvas"></canvas>
+      <input type="range" id="animationSlider" min="0" max="1" step="0.001" value="0">
 
-<div id="app-wrapper">
-  
-  <!-- Scene container -->
-  <div id="scene-container">
-       
-    <canvas id="threeCanvas"></canvas>
-    <!-- Swipe overlay container -->
-     <div id="swipeOverlay">
-        <img src="https://github.com/aj77hub/3D-Rotation/blob/main/asset/Finger.svg?raw=true" alt="Swipe to start" />
-     </div>
-    
+      <div id="swipeOverlay">
+        <img src="./asset/Finger.svg" alt="Swipe to start" />
+      </div>
+    </div>
+
+    <div id="loader">
+      <div class="spinner"></div>
+      <p>Loading 3D Model...</p>
+    </div>
+
+    <div id="thumbnails">
+      <!-- your thumbnails here -->
+    </div>
+
+    <!-- ✅ Play/Pause Button -->
+    <button id="toggleAnimation" >⏸️</button>
    
-
   </div>
 
-  <!-- Loader overlay -->
-  <div id="loader">
-    <div class="spinner"></div>
-    <p>Loading 3D Model...</p>
-  </div>
+  <script type="module" src="./script.js"></script>
+</body>
 
-  <!-- Thumbnails -->
-<div id="thumbnails">
-    <img src="https://github.com/aj77hub/3D-Rotation/blob/main/asset/MushroomHouse1.png?raw=true" data-model="https://3d-assests.netlify.app/asset/mushroomhouse1.glb" alt="Model 1">
-    <img src="https://github.com/aj77hub/3D-Rotation/blob/main/asset/LilCaesars.png?raw=true" data-model="https://3d-assests.netlify.app/asset/mushroomhouse1.glb" alt="Model 2">
-    <img src="https://github.com/aj77hub/3D-Rotation/blob/main/asset/MushroomHouse2.png?raw=true" data-model="https://3d-assests.netlify.app/asset/mushroomhouse1.glb" alt="Model 3">
-  </div>
-
-</div>
-<script type="module" src="./script.js"></script>
-
-  </body>
- 
 </html>
