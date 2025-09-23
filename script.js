@@ -2,9 +2,11 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'; 
 
-// === DOM elements for loader overlay and thumbnails ===
+// === DOM elements ===
 const loaderOverlay = document.getElementById("loader");
 const thumbnails = document.querySelectorAll("#thumbnails img");
+const toggleButton = document.getElementById("toggleAnimation");
+const slider = document.getElementById("animationSlider");
 
 // === Three.js setup ===
 const loader = new GLTFLoader();
@@ -25,19 +27,17 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.set(10,10,10);
 camera.lookAt(0, 0, 0);
 
-// === OrbitControls with full rotation unlocked ===
+// === OrbitControls ===
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 controls.rotateSpeed = 0.8;
 controls.zoomSpeed = 1.2;
 controls.panSpeed = 0.8;
-controls.minDistance = 0.5;  // can zoom in very close
-controls.maxDistance = 50;   // can zoom far out
-
-// FULL rotation freedom
-controls.minPolarAngle = 0;          // straight up
-controls.maxPolarAngle = Math.PI;    // straight down
+controls.minDistance = 0.5;
+controls.maxDistance = 50;
+controls.minPolarAngle = 0;
+controls.maxPolarAngle = Math.PI;
 controls.minAzimuthAngle = -Infinity;
 controls.maxAzimuthAngle = Infinity;
 
@@ -48,7 +48,26 @@ scene.add(light);
 // === Animation mixer ===
 let mixer;
 let currentModel;
+let currentAction;
+let isPlaying = true;
 const clock = new THREE.Clock();
+
+// === Play/Pause Button ===
+toggleButton.addEventListener("click", () => {
+  if (!mixer || !currentAction) return;
+
+  currentAction.paused = isPlaying;
+  toggleButton.textContent = isPlaying ? "▶️" : "⏸️";
+  isPlaying = !isPlaying;
+});
+
+// === Slider Control ===
+slider.addEventListener("input", () => {
+  if (!currentAction) return;
+  const duration = currentAction.getClip().duration;
+  currentAction.time = slider.value * duration;
+  mixer.update(0); // Force update
+});
 
 // === Fit camera to object ===
 function fitCameraToObject(camera, object, offset = 1) {
@@ -66,14 +85,13 @@ function fitCameraToObject(camera, object, offset = 1) {
   controls.update();
 }
 
-// === Function to load models ===
+// === Load model ===
 function loadModel(url) {
-  loaderOverlay.style.display = "flex"; // Show loader
+  loaderOverlay.style.display = "flex";
 
   loader.load(
     url,
     function (gltf) {
-      // Remove old model if exists
       if (currentModel) {
         scene.remove(currentModel);
         currentModel.traverse(child => {
@@ -87,14 +105,18 @@ function loadModel(url) {
 
       currentModel = gltf.scene;
       scene.add(currentModel);
-
-      // Auto-fit camera to new model
       fitCameraToObject(camera, currentModel);
 
       mixer = new THREE.AnimationMixer(currentModel);
-      gltf.animations.forEach(clip => mixer.clipAction(clip).play());
+      const clip = gltf.animations[0];
+      currentAction = mixer.clipAction(clip);
+      currentAction.play();
+      currentAction.paused = true; // Start paused
+      isPlaying = false;
+      toggleButton.textContent = "▶️"; // Update button to show play icon
 
-      loaderOverlay.style.display = "none"; // Hide loader
+
+      loaderOverlay.style.display = "none";
     },
     function (xhr) {
       const percent = (xhr.loaded / xhr.total * 100).toFixed(0);
@@ -108,7 +130,7 @@ function loadModel(url) {
 }
 
 // === Initial model load ===
-loadModel("https://3d-assests.netlify.app/asset/mushroomhouse1.glb");
+loadModel("https://3d-assests.netlify.app/asset/JoeyblendBox.glb");
 
 // === Thumbnail click events ===
 thumbnails.forEach(img => {
@@ -119,17 +141,18 @@ thumbnails.forEach(img => {
 });
 
 const swipeOverlay = document.getElementById("swipeOverlay");
-
 swipeOverlay.addEventListener("click", () => {
   swipeOverlay.style.display = "none";
 });
 
-
-
 // === Animation loop ===
 renderer.setAnimationLoop(() => {
   const delta = clock.getDelta();
-  if (mixer) mixer.update(delta);
+  if (mixer && currentAction && isPlaying) {
+    mixer.update(delta);
+    const duration = currentAction.getClip().duration;
+    slider.value = currentAction.time / duration;
+  }
   controls.update();
   renderer.render(scene, camera);
 });
