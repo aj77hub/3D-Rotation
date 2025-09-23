@@ -118,13 +118,12 @@ thumbnails.forEach(img => {
   });
 });
 
-
-// === Hide the hand ===
 const swipeOverlay = document.getElementById("swipeOverlay");
 
 swipeOverlay.addEventListener("click", () => {
   swipeOverlay.style.display = "none";
 });
+
 
 
 // === Animation loop ===
