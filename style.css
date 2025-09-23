@@ -107,8 +107,19 @@
 }
 
 #swipeOverlay img {
-  width: 2%; /* shrink the gif */
+  width: 10%; /* shrink the gif */
   height: auto;
   pointer-events: none; /* ensures the container handles the click */
    opacity: 0.7; /* 50% transparent */
+}
+
+@keyframes pulse {
+  0%   { transform:translate(50px) }
+  50%  { transform:translate(-50px) }
+  100% { transform:translate(50px); }
+}
+
+#swipeOverlay {
+  animation: pulse 2s infinite;
+  transform-origin: center;
 }
